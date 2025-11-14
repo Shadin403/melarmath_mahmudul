@@ -1,0 +1,11 @@
+{
+  "id": "mjs/booking",
+  "name": "Booking",
+  "namespace": "Botble\\Booking\\",
+  "provider": "Botble\\Booking\\Providers\\BookingServiceProvider",
+  "author": "Mostafa Jalili",
+  "url": "https://claradresses.com",
+  "version": "1.0.1",
+  "description": "Simple booking plugin: weekly slots, admin panel list/form, settings, and block dates/times.",
+  "minimum_core_version": "7.3.0"
+}

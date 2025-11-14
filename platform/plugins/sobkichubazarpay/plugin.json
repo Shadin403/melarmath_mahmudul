@@ -1,0 +1,12 @@
+{
+    "id": "sobkichubazarpay/sobkichubazarpay",
+    "name": "SobkichuBazarPay",
+    "namespace": "SobkichuBazarPay\\SobkichuBazarPay\\",
+    "provider": "SobkichuBazarPay\\SobkichuBazarPay\\Providers\\SobkichuBazarPayServiceProvider",
+    "author": "Sob Kichu Bazar",
+    "url": "https://sobkichubazar.com.bd",
+    "version": "1.0.0",
+    "description": "SobkichuBazar payment gateway integration for e-commerce",
+    "minimum_core_version": "7.2.0"
+}
+

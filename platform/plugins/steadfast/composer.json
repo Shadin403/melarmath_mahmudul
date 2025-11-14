@@ -1,0 +1,8 @@
+{
+  "name": "khairulkabir/steadfast",
+  "description": "The Steadfast API Integration Plugin by Khairul Kabir streamlines e-commerce with features like order tracking, payment verification, and courier updates, ensuring smooth operations and timely deliveries.",
+  "type": "package",
+  "require": {
+    "picqer/php-barcode-generator": "v3.2.0" 
+  }
+}

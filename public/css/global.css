@@ -1,0 +1,54 @@
+#hideHeaderOnMobile{
+    padding: 0;
+}
+
+
+
+@media all and (max-width: 991px){
+    #headerCustomize{
+        min-height: 50px !important;
+    }
+}
+
+.chatting_fix{
+    position: fixed;
+    right: 0px;
+    bottom: 70px;
+    padding: 5px;
+    border: 1px solid #5a97fa;
+    cursor: pointer;
+}
+
+.chating_app{
+    border-radius: 50%;
+    z-index: 99999;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 5px;
+    position: relative;
+    height: 40px;
+    width: 40px;
+}
+
+#button-contact-vr{
+    bottom: 94px !important;
+    display: none !imporant;
+}
+
+
+#button-contact-vr .button-contact .phone-vr{
+    height: 83px !important;
+    width: 80px !important;
+}
+
+@media all and (max-width: 400px){
+    .add-cart a{
+        font-size: 11px !important;
+    }
+}
+#gom-all-in-one{
+    display: none;
+}
+
+
+     

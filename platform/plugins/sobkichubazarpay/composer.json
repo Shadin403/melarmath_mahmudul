@@ -1,0 +1,17 @@
+{
+    "name": "sobkichubazarpay/sobkichubazarpay",
+    "description": "SobkichuBazar Payment Gateway Plugin",
+    "type": "package",
+    "keywords": ["payment", "gateway", "sobkichubazar", "ecommerce"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "BD Better Web",
+            "email": "support@bdbetterweb.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    }
+}
+

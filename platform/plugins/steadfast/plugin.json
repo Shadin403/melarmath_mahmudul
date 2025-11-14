@@ -1,0 +1,12 @@
+{
+    "id": "khairulkabir/steadfast",
+    "name": "Steadfast",
+    "namespace": "Khairulkabir\\Steadfast\\",
+    "provider": "Khairulkabir\\Steadfast\\Providers\\SteadfastServiceProvider",
+    "author": "Khairul Kabir",
+    "url": "https://khairulkabirdev.github.io",
+    "version": "2.0",
+    "description": "The Steadfast API Integration Plugin by Khairul Kabir streamlines e-commerce with features like order tracking, payment verification, and courier updates, ensuring smooth operations and timely deliveries.",
+    "minimum_core_version": "7.4.0",
+    "require": ["ecommerce"]
+}
