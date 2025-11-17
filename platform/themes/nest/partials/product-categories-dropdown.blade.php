@@ -106,12 +106,19 @@
 
     .category-name {
         flex: 1;
+        margin-right: 10px; /* Add space between name and toggle icon */
     }
 
     .sub-toggle {
         margin-left: auto;
         font-size: 12px;
         color: #7e7e7e;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        transition: transform 0.3s ease;
     }
 
     .category-item:last-child .category-link {
@@ -232,6 +239,7 @@
 
         categoryItems.forEach(item => {
             const dropdown = item.querySelector('.mega-dropdown');
+            const subToggle = item.querySelector('.sub-toggle i');
 
             if (dropdown) {
                 let hoverTimeout;
@@ -241,6 +249,11 @@
                     dropdown.style.opacity = '1';
                     dropdown.style.visibility = 'visible';
                     dropdown.style.transform = 'translateX(0)';
+                    
+                    // Rotate icon to point left when hovering
+                    if (subToggle) {
+                        subToggle.style.transform = 'rotate(180deg)';
+                    }
                 });
 
                 item.addEventListener('mouseleave', () => {
@@ -248,6 +261,11 @@
                         dropdown.style.opacity = '0';
                         dropdown.style.visibility = 'hidden';
                         dropdown.style.transform = 'translateX(10px)';
+                        
+                        // Rotate icon back to point right when not hovering
+                        if (subToggle) {
+                            subToggle.style.transform = 'rotate(0deg)';
+                        }
                     }, 100);
                 });
             }
