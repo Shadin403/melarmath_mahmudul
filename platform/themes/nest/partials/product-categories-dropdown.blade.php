@@ -7,7 +7,7 @@
         ->get();
 @endphp
 <div class="mega-menu-container">
-    <ul class="category-list">
+    <ul class="category-list" style="border: none !important;">
         @foreach ($categories as $category)
             <li class="category-item">
                 <a href="{{ route('public.single', $category->url) }}" class="category-link">
@@ -59,9 +59,7 @@
         position: relative;
     }
 
-    .category-list {
-        border: none;
-    }
+
 
     .categories-dropdown-wrap {
         width: 80%;
