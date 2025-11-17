@@ -121,7 +121,7 @@
     /* Mega Dropdown Styles */
     .mega-dropdown {
         position: absolute;
-        left: 220px;
+        left: 235px;
         top: 0;
         width: 400px;
         background: #fff;
