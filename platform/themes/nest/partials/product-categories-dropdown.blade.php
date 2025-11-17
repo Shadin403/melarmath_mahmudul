@@ -106,7 +106,8 @@
 
     .category-name {
         flex: 1;
-        margin-right: 10px; /* Add space between name and toggle icon */
+        margin-right: 10px;
+        /* Add space between name and toggle icon */
     }
 
     .sub-toggle {
@@ -249,7 +250,7 @@
                     dropdown.style.opacity = '1';
                     dropdown.style.visibility = 'visible';
                     dropdown.style.transform = 'translateX(0)';
-                    
+
                     // Rotate icon to point left when hovering
                     if (subToggle) {
                         subToggle.style.transform = 'rotate(180deg)';
@@ -261,7 +262,7 @@
                         dropdown.style.opacity = '0';
                         dropdown.style.visibility = 'hidden';
                         dropdown.style.transform = 'translateX(10px)';
-                        
+
                         // Rotate icon back to point right when not hovering
                         if (subToggle) {
                             subToggle.style.transform = 'rotate(0deg)';
