@@ -49,6 +49,10 @@ class Store extends BaseModel
         'government_id_file',
         'tax_id',
         'delivery_areas',
+        'is_out_side_dhaka',
+        'is_inside_of_dhaka',
+        'inside_dhaka',
+        'map_location',
     ];
 
     protected $casts = [
@@ -59,6 +63,9 @@ class Store extends BaseModel
         'address' => SafeContent::class,
         'company' => SafeContent::class,
         'delivery_areas' => 'json',
+        'is_out_side_dhaka' => 'boolean',
+        'is_inside_of_dhaka' => 'integer',
+        'inside_dhaka' => 'integer',
     ];
 
     protected static function booted(): void
