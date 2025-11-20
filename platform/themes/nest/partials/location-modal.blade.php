@@ -89,29 +89,55 @@
         const areaNameInput = document.getElementById('areaNameInput');
         const locationForm = document.getElementById('locationForm');
 
-        // Check if location is already selected
-        const userLocation = "{{ Session::get('user_selected_location')['area_name'] ?? '' }}";
+        // Get user location from session
+        @php
+            $userLocation = Session::get('user_selected_location');
+        @endphp
+        const sessionAreaId = "{{ $userLocation['area_id'] ?? '' }}";
+        const sessionThanaName = "{{ $userLocation['thana_name'] ?? '' }}";
 
-        if (!userLocation) {
-            // Load Thanas
-            fetch("{{ route('public.ajax.thanas') }}")
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(thana => {
-                        const option = document.createElement('option');
-                        option.value = thana
-                            .id; // Using ID for fetching areas, but name for saving if needed
-                        option.text = thana.name;
-                        option.dataset.name = thana.name;
-                        thanaSelect.appendChild(option);
-                    });
-                    locationModal.show();
+        console.log('Session Area ID:', sessionAreaId);
+        console.log('Session Thana Name:', sessionThanaName);
+
+        // Load Thanas
+        fetch("{{ route('public.ajax.thanas') }}")
+            .then(response => response.json())
+            .then(data => {
+                let selectedThanaId = null;
+
+                data.forEach(thana => {
+                    const option = document.createElement('option');
+                    option.value = thana.id;
+                    option.text = thana.name;
+                    option.dataset.name = thana.name;
+                    thanaSelect.appendChild(option);
+
+                    // Track which thana to pre-select
+                    if (sessionThanaName && thana.name === sessionThanaName) {
+                        selectedThanaId = thana.id;
+                        console.log('Found matching thana:', thana.name, 'ID:', thana.id);
+                    }
                 });
-        }
 
-        // Handle Thana Change
-        thanaSelect.addEventListener('change', function() {
-            const thanaId = this.value;
+                // Pre-select thana if found
+                if (selectedThanaId) {
+                    thanaSelect.value = selectedThanaId;
+                    console.log('Pre-selecting thana ID:', selectedThanaId);
+                    // Trigger change to load areas
+                    loadAreas(selectedThanaId, sessionAreaId);
+                }
+
+                // Show modal only if no location selected
+                if (!sessionAreaId) {
+                    console.log('No session area, showing modal');
+                    locationModal.show();
+                } else {
+                    console.log('Session area exists, not showing modal');
+                }
+            });
+
+        // Function to load areas
+        function loadAreas(thanaId, selectedAreaId = null) {
             areaSelect.innerHTML = '<option value="">{{ __('Select Area') }}</option>';
             areaSelect.disabled = true;
 
@@ -127,9 +153,26 @@
                             option.dataset.name = area.name;
                             areaSelect.appendChild(option);
                         });
+
+                        // Pre-select area if provided
+                        if (selectedAreaId) {
+                            console.log('Pre-selecting area ID:', selectedAreaId);
+                            areaSelect.value = selectedAreaId;
+                            const selectedOption = areaSelect.options[areaSelect.selectedIndex];
+                            if (selectedOption) {
+                                areaNameInput.value = selectedOption.dataset.name;
+                                console.log('Area pre-selected:', selectedOption.text);
+                            }
+                        }
+
                         areaSelect.disabled = false;
                     });
             }
+        }
+
+        // Handle Thana Change
+        thanaSelect.addEventListener('change', function() {
+            loadAreas(this.value);
         });
 
         // Handle Area Change

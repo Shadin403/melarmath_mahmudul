@@ -48,6 +48,7 @@ class Store extends BaseModel
         'certificate_file',
         'government_id_file',
         'tax_id',
+        'delivery_areas',
     ];
 
     protected $casts = [
@@ -57,12 +58,13 @@ class Store extends BaseModel
         'content' => SafeContent::class,
         'address' => SafeContent::class,
         'company' => SafeContent::class,
+        'delivery_areas' => 'json',
     ];
 
     protected static function booted(): void
     {
         static::deleted(function (Store $store): void {
-            $store->products()->each(fn (Product $product) => $product->delete());
+            $store->products()->each(fn(Product $product) => $product->delete());
             $store->discounts()->delete();
             $store->orders()->update(['store_id' => null]);
 

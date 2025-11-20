@@ -725,10 +725,14 @@
         const vendorResult = document.querySelector('.panel--search-result-vendor');
         let timeout = null;
 
+        console.log('Vendor search initialized:', vendorInput ? 'Input found' : 'Input NOT found');
+
         if (vendorInput) {
             vendorInput.addEventListener('input', function() {
                 const query = this.value;
                 clearTimeout(timeout);
+
+                console.log('Vendor search query:', query);
 
                 if (query.length < 2) {
                     vendorResult.style.display = 'none';
@@ -737,11 +741,25 @@
                 }
 
                 timeout = setTimeout(() => {
-                    fetch("{{ route('public.ajax.search') }}?q=" + query)
-                        .then(response => response.json())
+                    const url = "{{ route('public.ajax.search') }}?q=" + encodeURIComponent(
+                        query);
+                    console.log('Fetching from URL:', url);
+
+                    fetch(url, {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => {
+                            console.log('Response status:', response.status);
+                            return response.json();
+                        })
                         .then(data => {
+                            console.log('Vendor search data:', data);
                             vendorResult.innerHTML = '';
-                            if (data.data.length > 0) {
+                            if (data.data && data.data.length > 0) {
                                 vendorResult.style.display = 'block';
                                 const ul = document.createElement('ul');
                                 ul.style.listStyle = 'none';
@@ -753,7 +771,7 @@
                                     li.style.padding = '10px 20px';
                                     li.style.borderBottom = '1px solid #ececec';
                                     li.innerHTML = `
-                                        <a href="${store.url}" style="display: flex; align-items: center; gap: 10px;">
+                                        <a href="${store.url}" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
                                             <img src="${store.logo || '{{ Theme::asset()->url('imgs/theme/icons/icon-store.svg') }}'}" alt="${store.name}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;">
                                             <div>
                                                 <div style="font-weight: bold; color: #3bb77e;">${store.name}</div>
@@ -766,11 +784,16 @@
                                     ul.appendChild(li);
                                 });
                                 vendorResult.appendChild(ul);
+                                console.log('Vendor results displayed');
                             } else {
                                 vendorResult.style.display = 'block';
                                 vendorResult.innerHTML =
                                     '<div style="padding: 10px 20px; color: #7e7e7e;">{{ __('No vendors found') }}</div>';
+                                console.log('No vendors found');
                             }
+                        })
+                        .catch(error => {
+                            console.error('Vendor search error:', error);
                         });
                 }, 500);
             });

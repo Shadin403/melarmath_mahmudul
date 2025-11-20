@@ -737,12 +737,18 @@ class ProductRepository extends RepositoriesAbstract implements ProductInterface
                 ->whereIn('ec_products.brand_id', $filters['brands']);
         }
 
-        // Filter product by delivery area
+        // Prioritize products by delivery area (but don't filter them out)
         if ($filters['delivery_area_id']) {
-            $this->model = $this->model->where(function ($query) use ($filters) {
-                $query->whereJsonContains('delivery_areas', (string) $filters['delivery_area_id'])
-                    ->orWhereNull('delivery_areas');
-            });
+            $deliveryAreaId = (string) $filters['delivery_area_id'];
+
+            // Put matching products first, but show all products
+            $this->model = $this->model->orderByRaw(
+                "CASE
+                    WHEN JSON_CONTAINS(delivery_areas, '\"$deliveryAreaId\"') = 1 THEN 0
+                    WHEN delivery_areas IS NULL THEN 1
+                    ELSE 2
+                END"
+            );
         }
 
         // Filter product by attributes

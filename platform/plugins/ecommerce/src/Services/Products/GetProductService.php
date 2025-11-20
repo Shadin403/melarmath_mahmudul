@@ -45,8 +45,10 @@ class GetProductService
             'sort_by' => $request->input('sort-by') ?: $request->input('sort_by'),
             'num' => $num,
             'discounted_only' => (bool) $request->input('discounted_only'),
-            'delivery_area_id' => Session::has('user_selected_location') ? Session::get('user_selected_location')['area_id'] : null,
         ];
+
+        $userLocation = Session::get('user_selected_location');
+        $queryVar['delivery_area_id'] = $userLocation['area_id'] ?? null;
 
         if ($category) {
             $queryVar['categories'] = array_merge($queryVar['categories'], [$category]);
