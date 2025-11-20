@@ -63,7 +63,7 @@
                                             <span
                                                 style="background: #e8f6ea; color: #3BB77E; padding: 3px 10px; border-radius: 5px; font-size: 11px; font-weight: 600; display: inline-block;">
                                                 <i class="fi-rs-marker" style="font-size: 10px;"></i> আপনার এলাকায়
-                                                ডেলিভারি আছে
+                                                পাওয়া যাচ্ছে
                                             </span>
                                         </div>
                                     @else
