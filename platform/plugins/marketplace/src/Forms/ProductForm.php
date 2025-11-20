@@ -35,6 +35,8 @@ use Botble\Marketplace\Forms\Fields\CustomEditorField;
 use Botble\Marketplace\Forms\Fields\CustomImagesField;
 use Botble\Marketplace\Http\Requests\ProductRequest;
 use Botble\Marketplace\Tables\ProductVariationTable;
+use App\Models\DhakaArea;
+use Botble\Ecommerce\Models\GlobalOptionValue;
 
 class ProductForm extends BaseProductForm
 {
@@ -66,6 +68,15 @@ class ProductForm extends BaseProductForm
             $totalProductVariations = ProductVariation::query()->where('configurable_product_id', $productId)->count();
 
             $tags = $product->tags()->pluck('name')->implode(',');
+            $tags = $product->tags()->pluck('name')->implode(',');
+        }
+
+        $thanas = GlobalOptionValue::where('option_id', 7)->pluck('option_value', 'id');
+        $areas = DhakaArea::all();
+        $deliveryAreaChoices = [];
+        foreach ($areas as $area) {
+            $thanaName = $thanas[$area->thana_id] ?? 'Unknown';
+            $deliveryAreaChoices[$area->id] = $thanaName . ' - ' . $area->name;
         }
 
         $this
@@ -124,6 +135,16 @@ class ProductForm extends BaseProductForm
                             ->allowClear()
                     );
             })
+            ->add(
+                'delivery_areas',
+                SelectField::class,
+                SelectFieldOption::make()
+                    ->label(__('Delivery Areas'))
+                    ->choices($deliveryAreaChoices)
+                    ->searchable()
+                    ->multiple()
+                    ->selected($productId ? \Illuminate\Support\Arr::flatten($this->getModel()->delivery_areas ?? []) : [])
+            )
             ->add(
                 'image',
                 MediaImageField::class,

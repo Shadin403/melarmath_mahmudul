@@ -254,6 +254,14 @@ class ProductController extends BaseController
             'images' => array_filter((array) $request->input('images', [])),
         ]);
 
+        if ($request->has('delivery_areas')) {
+            $deliveryAreas = $request->input('delivery_areas');
+            if (is_array($deliveryAreas)) {
+                $deliveryAreas = \Illuminate\Support\Arr::flatten($deliveryAreas);
+                $request->merge(['delivery_areas' => $deliveryAreas]);
+            }
+        }
+
         $customer = auth('customer')->user();
 
         if ($request->hasFile('image_input')) {

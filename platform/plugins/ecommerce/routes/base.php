@@ -245,6 +245,21 @@ Theme::registerRoutes(function (): void {
             Route::post('ajax/checkout/update-tax', [PublicUpdateTaxCheckoutController::class, '__invoke'])
                 ->middleware(RequiresJsonRequestMiddleware::class)
                 ->name('public.ajax.checkout.update-tax');
+
+            Route::get('ajax/thanas', [
+                'as' => 'public.ajax.thanas',
+                'uses' => 'LocationController@getThanas',
+            ]);
+
+            Route::get('ajax/areas/{thanaId}', [
+                'as' => 'public.ajax.areas',
+                'uses' => 'LocationController@getAreas',
+            ]);
+
+            Route::post('ajax/set-location', [
+                'as' => 'public.ajax.set-location',
+                'uses' => 'LocationController@setLocation',
+            ]);
         });
     });
 });

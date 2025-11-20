@@ -77,6 +77,7 @@ class Product extends BaseModel
         'maximum_order_quantity',
         'notify_attachment_updated',
         'specification_table_id',
+        'delivery_areas',
     ];
 
     protected $appends = [
@@ -104,6 +105,7 @@ class Product extends BaseModel
         'generate_license_code' => 'bool',
         'notify_attachment_updated' => 'bool',
         'video_media' => 'json',
+        'delivery_areas' => 'json',
     ];
 
     protected static function booted(): void

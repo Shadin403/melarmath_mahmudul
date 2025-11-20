@@ -8,12 +8,11 @@ use Botble\Ecommerce\Repositories\Interfaces\ProductInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class GetProductService
 {
-    public function __construct(protected ProductInterface $productRepository)
-    {
-    }
+    public function __construct(protected ProductInterface $productRepository) {}
 
     public function getProduct(
         Request $request,
@@ -46,6 +45,7 @@ class GetProductService
             'sort_by' => $request->input('sort-by') ?: $request->input('sort_by'),
             'num' => $num,
             'discounted_only' => (bool) $request->input('discounted_only'),
+            'delivery_area_id' => Session::has('user_selected_location') ? Session::get('user_selected_location')['area_id'] : null,
         ];
 
         if ($category) {
@@ -146,6 +146,7 @@ class GetProductService
             'attributes' => $queryVar['attributes'],
             'order_by' => $orderBy,
             'discounted_only' => $queryVar['discounted_only'],
+            'delivery_area_id' => $queryVar['delivery_area_id'],
         ], $params);
     }
 }

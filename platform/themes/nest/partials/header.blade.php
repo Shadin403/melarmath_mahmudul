@@ -100,119 +100,230 @@
                     </a>
                 </div>
 
-                <div class="header-right">
-                    @if (is_plugin_active('ecommerce'))
-                        <div class="search-style-2">
-                            <form action="{{ route('public.products') }}" class="form--quick-search"
-                                data-ajax-url="{{ route('public.ajax.search-products') }}" method="GET">
-                                @if (theme_option('enabled_product_categories_on_search_keyword_box', 'yes') !== 'no')
-                                    <div class="form-group--icon position-relative">
-                                        <div class="product-cat-label">{{ __('All Categories') }}</div>
-                                        <select class="product-category-select" name="categories[]"
-                                            aria-label="{{ __('Select category') }}">
-                                            <option value="">{{ __('All Categories') }}</option>
-                                            {!! ProductCategoryHelper::renderProductCategoriesSelect() !!}
-                                        </select>
-                                    </div>
-                                @endif
-                                <input type="text" class="input-search-product" name="q"
-                                    placeholder="{{ __('Search for items...') }}"
-                                    value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off">
-                                <button class="btn" type="submit" aria-label="{{ __('Submit') }}">
-                                    <x-core::icon name="ti ti-search" />
-                                </button>
-                                <div class="panel--search-result"></div>
-                            </form>
-                        </div>
-                        <div class="header-action-right">
-                            <div class="header-action-2">
-                                @if (EcommerceHelper::isCompareEnabled())
-                                    <div class="header-action-icon-2">
-                                        <a href="{{ route('public.compare') }}">
-                                            <img class="svgInject" alt="{{ __('Compare') }}"
-                                                src="{{ Theme::asset()->url('imgs/theme/icons/icon-compare.svg') }}" />
-                                            <span
-                                                class="pro-count blue compare-count">{{ Cart::instance('compare')->count() }}</span>
-                                        </a>
-                                        <a href="{{ route('public.compare') }}"><span
-                                                class="lable">{{ __('Compare') }}</span></a>
-                                    </div>
-                                @endif
-                                @if (EcommerceHelper::isWishlistEnabled())
-                                    <div class="header-action-icon-2">
-                                        <a href="{{ route('public.wishlist') }}">
-                                            <img class="svgInject" alt="{{ __('Wishlist') }}"
-                                                src="{{ Theme::asset()->url('imgs/theme/icons/icon-heart.svg') }}" />
-                                            <span class="pro-count blue wishlist-count">
-                                                @if (auth('customer')->check())
-                                                    {{ auth('customer')->user()->wishlist()->count() }}
-                                                @else
-                                                    {{ Cart::instance('wishlist')->count() }}
-                                                @endif
-                                            </span>
-                                        </a>
-                                        <a href="{{ route('public.wishlist') }}"><span
-                                                class="lable">{{ __('Wishlist') }}</span></a>
-                                    </div>
-                                @endif
+                <div class="header-right" style="flex-grow: 1; justify-content: flex-end;">
+                    <div class="delivery-location-info mr-30 d-none d-lg-block" style="margin-right: 20px;">
+                        @if (Session::has('user_selected_location'))
+                            <a href="javascript:void(0)" onclick="openLocationModal()" class="location-badge">
+                                <div class="icon-box">
+                                    <i class="fi-rs-marker"></i>
+                                </div>
+                                <div class="text-box">
+                                    <span class="label">{{ __('Delivery:') }}</span>
+                                    <span
+                                        class="value">{{ Session::get('user_selected_location')['area_name'] }}</span>
+                                </div>
+                                <i class="fi-rs-angle-small-down ms-auto"></i>
+                            </a>
+                        @else
+                            <a href="javascript:void(0)" onclick="openLocationModal()" class="location-badge">
+                                <div class="icon-box">
+                                    <i class="fi-rs-marker"></i>
+                                </div>
+                                <div class="text-box">
+                                    <span class="label">{{ __('Delivery:') }}</span>
+                                    <span class="value">{{ __('Select Location') }}</span>
+                                </div>
+                            </a>
+                        @endif
+                    </div>
 
-                                @if (EcommerceHelper::isCartEnabled())
-                                    <div class="header-action-icon-2">
-                                        <a class="mini-cart-icon" href="{{ route('public.cart') }}">
-                                            <img alt="{{ __('Cart') }}"
-                                                src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
-                                            <span class="pro-count blue">{{ Cart::instance('cart')->count() }}</span>
-                                        </a>
-                                        <a href="{{ route('public.cart') }}"><span
-                                                class="lable">{{ __('Cart') }}</span></a>
-                                        <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
-                                            {!! Theme::partial('cart-panel') !!}
+                    <div class="search-container d-flex align-items-center" style="flex-grow: 1; max-width: 900px;">
+                        @if (is_plugin_active('ecommerce'))
+                            <div class="search-style-2 flex-grow-1 me-2">
+                                <form action="{{ route('public.products') }}" class="form--quick-search"
+                                    data-ajax-url="{{ route('public.ajax.search-products') }}" method="GET"
+                                    style="background: #fff; border: 1px solid #BCE3C9; border-radius: 5px; height: 50px; display: flex; align-items: center;">
+                                    @if (theme_option('enabled_product_categories_on_search_keyword_box', 'yes') !== 'no')
+                                        <div class="form-group--icon position-relative"
+                                            style="border-right: 1px solid #BCE3C9;">
+                                            <select class="product-category-select" name="categories[]"
+                                                aria-label="{{ __('Select category') }}"
+                                                style="border: none; height: 48px; padding: 0 15px; background: transparent;">
+                                                <option value="">{{ __('All Categories') }}</option>
+                                                {!! ProductCategoryHelper::renderProductCategoriesSelect() !!}
+                                            </select>
                                         </div>
+                                    @endif
+                                    <input type="text" class="input-search-product" name="q"
+                                        placeholder="{{ __('Search for items...') }}"
+                                        value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off"
+                                        style="border: none; height: 48px; padding: 0 15px; width: 100%;">
+                                    <button class="btn" type="submit" aria-label="{{ __('Submit') }}"
+                                        style="background: transparent; border: none; padding: 0 15px;">
+                                        <i class="fi-rs-search" style="font-size: 20px; color: #253D4E;"></i>
+                                    </button>
+                                    <div class="panel--search-result"></div>
+                                </form>
+                            </div>
+
+                            <div class="search-style-2 vendor-search-box flex-grow-1">
+                                <form action="#" class="form--quick-search-vendor" method="GET"
+                                    style="position: relative; background: #fff; border: 1px solid #BCE3C9; border-radius: 5px; height: 50px; display: flex; align-items: center;">
+                                    <input type="text" class="input-search-vendor" name="q"
+                                        placeholder="{{ __('Search Store Name, Mobile or Area...') }}"
+                                        autocomplete="off"
+                                        style="border: none; height: 48px; padding: 0 15px; width: 100%; border-radius: 5px;">
+                                    <button class="btn" type="button"
+                                        style="background: transparent; border: none; padding: 0 15px;">
+                                        <i class="fi-rs-search" style="font-size: 20px; color: #253D4E;"></i>
+                                    </button>
+                                    <div class="panel--search-result-vendor"
+                                        style="position: absolute; top: 100%; left: 0; width: 100%; background: #fff; border: 1px solid #ececec; border-top: none; z-index: 999; display: none; max-height: 300px; overflow-y: auto; border-radius: 0 0 10px 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);">
                                     </div>
-                                @endif
-                                <div class="header-action-icon-2">
-                                    <a href="{{ route('customer.overview') }}">
-                                        <img class="svgInject rounded-circle" alt="{{ __('Account') }}"
-                                            src="{{ auth('customer')->check() ? auth('customer')->user()->avatar_url : Theme::asset()->url('imgs/theme/icons/icon-user.svg') }}" />
-                                    </a>
-                                    <a href="{{ route('customer.overview') }}"><span
-                                            class="lable me-1">{{ auth('customer')->check() ? Str::limit(auth('customer')->user()->name, 10) : __('Account') }}</span></a>
-                                    <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
-                                        <ul>
-                                            @if (auth('customer')->check())
-                                                <li><a href="{{ route('customer.overview') }}"><i
-                                                            class="fi fi-rs-user mr-10"></i>{{ __('My Account') }}</a>
-                                                </li>
-                                                @if (EcommerceHelper::isOrderTrackingEnabled())
-                                                    <li><a href="{{ route('public.orders.tracking') }}"><i
-                                                                class="fi fi-rs-location-alt mr-10"></i>{{ __('Order Tracking') }}</a>
-                                                    </li>
-                                                @endif
-                                                @if (EcommerceHelper::isWishlistEnabled())
-                                                    <li><a href="{{ route('public.wishlist') }}"><i
-                                                                class="fi fi-rs-heart mr-10"></i>{{ __('My Wishlist') }}</a>
-                                                    </li>
-                                                @endif
-                                                <li><a href="{{ route('customer.edit-account') }}"><i
-                                                            class="fi fi-rs-settings-sliders mr-10"></i>{{ __('Update profile') }}</a>
-                                                </li>
-                                                <li><a href="{{ route('customer.logout') }}"><i
-                                                            class="fi fi-rs-sign-out mr-10"></i>{{ __('Sign out') }}</a>
-                                                </li>
-                                            @else
-                                                <li><a href="{{ route('customer.login') }}"><i
-                                                            class="fi fi-rs-user mr-10"></i>{{ __('Login') }}</a>
-                                                </li>
-                                                <li><a href="{{ route('customer.register') }}"><i
-                                                            class="fi fi-rs-user-add mr-10"></i>{{ __('Register') }}</a>
-                                                </li>
-                                            @endif
-                                        </ul>
-                                    </div>
+                                </form>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <style>
+                    .location-badge {
+                        display: flex;
+                        align-items: center;
+                        background-color: #e8f6ea;
+                        /* Light green background */
+                        padding: 8px 15px;
+                        border-radius: 50px;
+                        border: 1px solid #BCE3C9;
+                        transition: all 0.3s ease;
+                        min-width: 200px;
+                    }
+
+                    .location-badge:hover {
+                        background-color: #fff;
+                        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+                    }
+
+                    .location-badge .icon-box {
+                        width: 35px;
+                        height: 35px;
+                        background-color: #3BB77E;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-right: 10px;
+                    }
+
+                    .location-badge .icon-box i {
+                        color: #fff;
+                        font-size: 18px;
+                    }
+
+                    .location-badge .text-box {
+                        display: flex;
+                        flex-direction: column;
+                        line-height: 1.2;
+                        margin-right: 10px;
+                    }
+
+                    .location-badge .text-box .label {
+                        font-size: 11px;
+                        color: #7E7E7E;
+                    }
+
+                    .location-badge .text-box .value {
+                        font-size: 14px;
+                        font-weight: 700;
+                        color: #3BB77E;
+                    }
+
+                    .search-style-2 form input {
+                        font-size: 14px;
+                    }
+
+                    .search-style-2 form input::placeholder {
+                        color: #838383;
+                    }
+                </style>
+
+                <div class="header-action-right">
+                    <div class="header-action-2">
+                        @if (EcommerceHelper::isCompareEnabled())
+                            <div class="header-action-icon-2">
+                                <a href="{{ route('public.compare') }}">
+                                    <img class="svgInject" alt="{{ __('Compare') }}"
+                                        src="{{ Theme::asset()->url('imgs/theme/icons/icon-compare.svg') }}" />
+                                    <span
+                                        class="pro-count blue compare-count">{{ Cart::instance('compare')->count() }}</span>
+                                </a>
+                                <a href="{{ route('public.compare') }}"><span
+                                        class="lable">{{ __('Compare') }}</span></a>
+                            </div>
+                        @endif
+                        @if (EcommerceHelper::isWishlistEnabled())
+                            <div class="header-action-icon-2">
+                                <a href="{{ route('public.wishlist') }}">
+                                    <img class="svgInject" alt="{{ __('Wishlist') }}"
+                                        src="{{ Theme::asset()->url('imgs/theme/icons/icon-heart.svg') }}" />
+                                    <span class="pro-count blue wishlist-count">
+                                        @if (auth('customer')->check())
+                                            {{ auth('customer')->user()->wishlist()->count() }}
+                                        @else
+                                            {{ Cart::instance('wishlist')->count() }}
+                                        @endif
+                                    </span>
+                                </a>
+                                <a href="{{ route('public.wishlist') }}"><span
+                                        class="lable">{{ __('Wishlist') }}</span></a>
+                            </div>
+                        @endif
+
+                        @if (EcommerceHelper::isCartEnabled())
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="{{ route('public.cart') }}">
+                                    <img alt="{{ __('Cart') }}"
+                                        src="{{ Theme::asset()->url('imgs/theme/icons/icon-cart.svg') }}" />
+                                    <span class="pro-count blue">{{ Cart::instance('cart')->count() }}</span>
+                                </a>
+                                <a href="{{ route('public.cart') }}"><span
+                                        class="lable">{{ __('Cart') }}</span></a>
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2 cart-dropdown-panel">
+                                    {!! Theme::partial('cart-panel') !!}
                                 </div>
                             </div>
+                        @endif
+                        <div class="header-action-icon-2">
+                            <a href="{{ route('customer.overview') }}">
+                                <img class="svgInject rounded-circle" alt="{{ __('Account') }}"
+                                    src="{{ auth('customer')->check() ? auth('customer')->user()->avatar_url : Theme::asset()->url('imgs/theme/icons/icon-user.svg') }}" />
+                            </a>
+                            <a href="{{ route('customer.overview') }}"><span
+                                    class="lable me-1">{{ auth('customer')->check() ? Str::limit(auth('customer')->user()->name, 10) : __('Account') }}</span></a>
+                            <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
+                                <ul>
+                                    @if (auth('customer')->check())
+                                        <li><a href="{{ route('customer.overview') }}"><i
+                                                    class="fi fi-rs-user mr-10"></i>{{ __('My Account') }}</a>
+                                        </li>
+                                        @if (EcommerceHelper::isOrderTrackingEnabled())
+                                            <li><a href="{{ route('public.orders.tracking') }}"><i
+                                                        class="fi fi-rs-location-alt mr-10"></i>{{ __('Order Tracking') }}</a>
+                                            </li>
+                                        @endif
+                                        @if (EcommerceHelper::isWishlistEnabled())
+                                            <li><a href="{{ route('public.wishlist') }}"><i
+                                                        class="fi fi-rs-heart mr-10"></i>{{ __('My Wishlist') }}</a>
+                                            </li>
+                                        @endif
+                                        <li><a href="{{ route('customer.edit-account') }}"><i
+                                                    class="fi fi-rs-settings-sliders mr-10"></i>{{ __('Update profile') }}</a>
+                                        </li>
+                                        <li><a href="{{ route('customer.logout') }}"><i
+                                                    class="fi fi-rs-sign-out mr-10"></i>{{ __('Sign out') }}</a>
+                                        </li>
+                                    @else
+                                        <li><a href="{{ route('customer.login') }}"><i
+                                                    class="fi fi-rs-user mr-10"></i>{{ __('Login') }}</a>
+                                        </li>
+                                        <li><a href="{{ route('customer.register') }}"><i
+                                                    class="fi fi-rs-user-add mr-10"></i>{{ __('Register') }}</a>
+                                        </li>
+                                    @endif
+                                </ul>
+                            </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -606,3 +717,70 @@
         </div>
     </div>
 </div>
+{!! Theme::partial('location-modal') !!}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const vendorInput = document.querySelector('.input-search-vendor');
+        const vendorResult = document.querySelector('.panel--search-result-vendor');
+        let timeout = null;
+
+        if (vendorInput) {
+            vendorInput.addEventListener('input', function() {
+                const query = this.value;
+                clearTimeout(timeout);
+
+                if (query.length < 2) {
+                    vendorResult.style.display = 'none';
+                    vendorResult.innerHTML = '';
+                    return;
+                }
+
+                timeout = setTimeout(() => {
+                    fetch("{{ route('public.ajax.search') }}?q=" + query)
+                        .then(response => response.json())
+                        .then(data => {
+                            vendorResult.innerHTML = '';
+                            if (data.data.length > 0) {
+                                vendorResult.style.display = 'block';
+                                const ul = document.createElement('ul');
+                                ul.style.listStyle = 'none';
+                                ul.style.padding = '0';
+                                ul.style.margin = '0';
+
+                                data.data.forEach(store => {
+                                    const li = document.createElement('li');
+                                    li.style.padding = '10px 20px';
+                                    li.style.borderBottom = '1px solid #ececec';
+                                    li.innerHTML = `
+                                        <a href="${store.url}" style="display: flex; align-items: center; gap: 10px;">
+                                            <img src="${store.logo || '{{ Theme::asset()->url('imgs/theme/icons/icon-store.svg') }}'}" alt="${store.name}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;">
+                                            <div>
+                                                <div style="font-weight: bold; color: #3bb77e;">${store.name}</div>
+                                                <div style="font-size: 12px; color: #7e7e7e;">
+                                                    <span style="color: #ffb800;">★ ${store.rating}</span> • ${store.products_count} Products
+                                                </div>
+                                            </div>
+                                        </a>
+                                    `;
+                                    ul.appendChild(li);
+                                });
+                                vendorResult.appendChild(ul);
+                            } else {
+                                vendorResult.style.display = 'block';
+                                vendorResult.innerHTML =
+                                    '<div style="padding: 10px 20px; color: #7e7e7e;">{{ __('No vendors found') }}</div>';
+                            }
+                        });
+                }, 500);
+            });
+
+            // Close on click outside
+            document.addEventListener('click', function(e) {
+                if (!vendorInput.contains(e.target) && !vendorResult.contains(e.target)) {
+                    vendorResult.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>

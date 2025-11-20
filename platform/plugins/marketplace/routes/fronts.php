@@ -4,6 +4,7 @@ use Botble\Base\Http\Middleware\RequiresJsonRequestMiddleware;
 use Botble\Marketplace\Http\Controllers\Fronts\BecomeVendorController;
 use Botble\Marketplace\Http\Controllers\Fronts\ContactStoreController;
 use Botble\Marketplace\Http\Controllers\Fronts\PublicStoreController;
+use Botble\Marketplace\Http\Controllers\Fronts\VendorSearchController;
 use Botble\Marketplace\Models\Store;
 use Botble\Slug\Facades\SlugHelper;
 use Botble\Theme\Facades\Theme;
@@ -26,6 +27,7 @@ Route::group([
                     'check-store-url'
                 );
                 Route::post('{id}/contact', [ContactStoreController::class, 'store'])->name('stores.contact');
+                Route::get('search', [VendorSearchController::class, 'ajaxSearch'])->name('search');
             });
 
         Route::middleware('customer')->prefix('customer/become-vendor')->name('marketplace.vendor.')->group(
@@ -43,4 +45,3 @@ Route::group([
         );
     });
 });
-

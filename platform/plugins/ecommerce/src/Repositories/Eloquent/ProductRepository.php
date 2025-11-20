@@ -332,6 +332,7 @@ class ProductRepository extends RepositoriesAbstract implements ProductInterface
             'collections' => [],
             'collection' => null,
             'discounted_only' => false,
+            'delivery_area_id' => null,
         ], $filters);
 
         $isUsingDefaultCurrency = get_application_currency_id() == cms_currency()->getDefaultCurrency()->getKey();
@@ -734,6 +735,14 @@ class ProductRepository extends RepositoriesAbstract implements ProductInterface
         if ($filters['brands']) {
             $this->model = $this->model
                 ->whereIn('ec_products.brand_id', $filters['brands']);
+        }
+
+        // Filter product by delivery area
+        if ($filters['delivery_area_id']) {
+            $this->model = $this->model->where(function ($query) use ($filters) {
+                $query->whereJsonContains('delivery_areas', (string) $filters['delivery_area_id'])
+                    ->orWhereNull('delivery_areas');
+            });
         }
 
         // Filter product by attributes
