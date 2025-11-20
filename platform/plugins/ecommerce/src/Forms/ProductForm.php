@@ -33,6 +33,8 @@ use Botble\Ecommerce\Forms\Fronts\Auth\FieldOptions\TextFieldOption;
 use Botble\Ecommerce\Http\Requests\ProductRequest;
 use Botble\Ecommerce\Models\Brand;
 use Botble\Ecommerce\Models\GlobalOption;
+use Botble\Ecommerce\Models\GlobalOptionValue;
+use App\Models\DhakaArea;
 use Botble\Ecommerce\Models\Product;
 use Botble\Ecommerce\Models\ProductAttributeSet;
 use Botble\Ecommerce\Models\ProductCollection;
@@ -49,6 +51,16 @@ class ProductForm extends FormAbstract
         $this->addAssets();
 
         $brands = Brand::query()->pluck('name', 'id')->all();
+
+        // Delivery Areas
+        $thanas = GlobalOptionValue::where('option_id', 7)->get();
+        $deliveryAreaChoices = [];
+        foreach ($thanas as $thana) {
+            $areas = DhakaArea::where('thana_id', $thana->id)->get();
+            foreach ($areas as $area) {
+                $deliveryAreaChoices[$area->id] = $thana->option_value . ' - ' . $area->name;
+            }
+        }
 
         $productCollections = ProductCollection::query()->pluck('name', 'id')->all();
 
@@ -139,6 +151,16 @@ class ProductForm extends FormAbstract
                             ->allowClear()
                     );
             })
+            ->add(
+                'delivery_areas',
+                SelectField::class,
+                SelectFieldOption::make()
+                    ->label(__('Delivery Areas'))
+                    ->choices($deliveryAreaChoices)
+                    ->searchable()
+                    ->multiple()
+                    ->selected($productId ? \Illuminate\Support\Arr::flatten($this->getModel()->delivery_areas ?? []) : [])
+            )
             ->add(
                 'image',
                 MediaImageField::class,
