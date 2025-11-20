@@ -240,7 +240,8 @@
                                 <span class="fi-rs-apps"></span> {!! BaseHelper::clean(__('<span class="et">Browse</span> All Categories')) !!}
                                 <i class="fi-rs-angle-down"></i>
                             </a>
-                            <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
+                            <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading"
+                                style="top: 29px; left: -3px;">
                                 @php
                                     $categories = ProductCategoryHelper::getProductCategoriesWithUrl(
                                         [],
@@ -261,7 +262,8 @@
                                 @if (count($categories) > 10)
                                     <div class="more_categories" data-text-show-more="{{ __('Show more...') }}"
                                         data-text-show-less="{{ __('Show less...') }}"><span class="icon"></span>
-                                        <span class="heading-sm-1">{{ __('Show more...') }}</span></div>
+                                        <span class="heading-sm-1">{{ __('Show more...') }}</span>
+                                    </div>
                                 @endif
                             </div>
                         </div>

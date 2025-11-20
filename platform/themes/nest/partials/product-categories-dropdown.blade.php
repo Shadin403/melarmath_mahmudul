@@ -57,63 +57,84 @@
 <style>
     .mega-menu-container {
         position: relative;
+        top: -26px;
+        left: -19px;
     }
 
-
-
     .categories-dropdown-wrap {
-        width: 80%;
+        width: 110%;
+
     }
 
     .category-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        border: 1px solid #ececec;
-        width: 220px;
-        background: #fff;
+        list-style: none !important;
+        padding: 10px 0 !important;
+        margin: 0 !important;
+        border: 1px solid #f0f0f0 !important;
+        width: 250px !important;
+        background: #fff !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
     }
 
     .category-item {
         position: relative;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        width: 116%;
     }
 
     .category-link {
-        display: flex;
+        display: flex !important;
         align-items: center;
-        padding: 12px 15px;
-        color: #253d4e;
-        font-size: 14px;
+        padding: 10px 20px !important;
+        color: #253d4e !important;
+        font-size: 15px !important;
         font-weight: 500;
-        border-bottom: 1px solid #ececec;
-        text-decoration: none;
-        transition: all 0.3s ease;
+        border: none !important;
+        /* Reset all borders first */
+        border-bottom: 1px solid #f8f8f8 !important;
+        /* Re-apply bottom separator */
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+        width: 100%;
+        background: transparent !important;
+        border-radius: 0 !important;
     }
 
     .category-link:hover {
-        background-color: #f7f7f7;
-        color: #3BB77E;
+        background-color: transparent !important;
+        color: #3BB77E !important;
+        padding-left: 20px !important;
     }
 
     .category-icon {
-        margin-right: 12px;
-        width: 20px;
-        height: 20px;
+        margin-right: 15px !important;
+        width: 24px !important;
+        height: 24px !important;
         display: flex;
         align-items: center;
         justify-content: center;
+        object-fit: contain;
+        opacity: 0.8;
     }
 
     .category-name {
         flex: 1;
         margin-right: 10px;
-        /* Add space between name and toggle icon */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.2;
     }
 
     .sub-toggle {
         margin-left: auto;
         font-size: 12px;
-        color: #7e7e7e;
+        color: #b6b6b6;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -123,23 +144,27 @@
     }
 
     .category-item:last-child .category-link {
-        border-bottom: none;
+        border-bottom: none !important;
     }
 
     /* Mega Dropdown Styles */
     .mega-dropdown {
         position: absolute;
-        left: 235px;
+        left: 100%;
         top: 0;
-        width: 400px;
+        width: 850px;
+        min-height: 100%;
         background: #fff;
-        border: 1px solid #ececec;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        border: 1px solid #f0f0f0;
         opacity: 0;
         visibility: hidden;
         transform: translateX(10px);
-        transition: all 0.3s ease;
-        z-index: 1000;
+        transition: all 0.2s ease-in-out;
+        z-index: 9999;
+        padding: 30px;
+        margin-left: 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        /* Slight shadow for dropdown only */
     }
 
     .category-item:hover .mega-dropdown {
@@ -150,11 +175,9 @@
 
     .mega-dropdown-content {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px 20px;
-        padding: 15px 20px;
-        max-height: 400px;
-        overflow-y: auto;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        width: 100%;
     }
 
     .mega-column {
@@ -162,12 +185,13 @@
     }
 
     .column-title {
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 700;
         color: #253d4e;
-        margin: 0 0 12px 0;
-        padding-bottom: 8px;
-        border-bottom: 2px solid #3BB77E;
+        margin: 0 0 15px 0;
+        padding-bottom: 0;
+        border-bottom: none;
+        display: block;
     }
 
     .column-title a {
@@ -187,7 +211,7 @@
     }
 
     .sub-category-list li {
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
 
     .sub-category-list li a {
@@ -195,41 +219,34 @@
         font-size: 14px;
         text-decoration: none;
         transition: all 0.3s ease;
-        display: inline-block;
-        padding: 4px 0;
+        display: block;
     }
 
     .sub-category-list li a:hover {
         color: #3BB77E;
-        padding-left: 5px;
-    }
-
-    /* Scrollbar Styling */
-    .mega-dropdown-content::-webkit-scrollbar {
-        width: 6px;
-    }
-
-    .mega-dropdown-content::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    .mega-dropdown-content::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 3px;
-    }
-
-    .mega-dropdown-content::-webkit-scrollbar-thumb:hover {
-        background: #555;
+        transform: translateX(5px);
     }
 
     /* Responsive Design */
-    @media (max-width: 768px) {
+    @media (max-width: 1200px) {
         .mega-dropdown {
-            min-width: 300px;
+            width: 600px;
         }
 
         .mega-dropdown-content {
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 992px) {
+        .mega-dropdown {
+            width: 500px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .mega-dropdown {
+            display: none;
         }
     }
 </style>
