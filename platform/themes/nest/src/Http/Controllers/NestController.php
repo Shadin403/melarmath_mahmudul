@@ -40,7 +40,7 @@ class NestController extends PublicController
         }
 
         [$productImages, $productVariation, $selectedAttrs] = EcommerceHelper::getProductVariationInfo($product);
-        
+
         return $response->setData(
             Theme::partial('quick-view', compact('product', 'selectedAttrs', 'productImages', 'productVariation'))
         );
@@ -54,6 +54,7 @@ class NestController extends PublicController
         $request->merge(['num' => 12]);
 
         $products = $productService->getProduct($request);
+
 
         $queries = $request->input();
         foreach ($queries as $key => $query) {

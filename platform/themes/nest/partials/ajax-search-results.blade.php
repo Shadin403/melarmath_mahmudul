@@ -57,6 +57,14 @@
                             <div class="product-content-wrap px-1 px-md-3">
                                 <a class="product__title" href="{{ $product->url }}">{!! BaseHelper::clean($product->name) !!}</a>
 
+                                @if (is_plugin_active('marketplace') && $product->store->id)
+                                    <div class="product-vendor">
+                                        <span class="text-muted">{{ __('Sold By') }}: </span>
+                                        <a href="{{ $product->store->url }}"
+                                            class="text-primary">{{ $product->store->name }}</a>
+                                    </div>
+                                @endif
+
                                 @if ($userAreaId)
                                     @if ($hasDelivery)
                                         <div style="margin-top: 5px;">
