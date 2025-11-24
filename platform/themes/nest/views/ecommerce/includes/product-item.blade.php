@@ -154,6 +154,21 @@
                 align-items: center;
                 min-height: 60px;
             }
+
+            /* Hide add-to-cart button by default on desktop */
+            .product-cart-wrap .add-cart {
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                transform: translateY(10px);
+            }
+
+            /* Show add-to-cart button on hover */
+            .product-cart-wrap:hover .add-cart {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
         }
 
         /* row gap fix */
