@@ -101,7 +101,10 @@
                 </div>
 
                 <div class="header-right" style="flex-grow: 1; justify-content: flex-end;">
-                    <div class="delivery-location-info mr-30 d-none d-lg-block" style="margin-right: 20px;">
+                    <div class="delivery-location-info mr-30 d-none d-lg-block"
+                        style="margin-right: 116px !important;
+    position: relative;
+    left: 88px;">
                         @if (Session::has('user_selected_location'))
                             <a href="javascript:void(0)" onclick="openLocationModal()" class="location-badge">
                                 <div class="icon-box">
@@ -233,6 +236,10 @@
 
                     .search-style-2 form input::placeholder {
                         color: #838383;
+                    }
+
+                    .logo.logo-width-1 {
+                        margin-right: -32px !important;
                     }
                 </style>
 
@@ -473,6 +480,24 @@
                             value="{{ BaseHelper::stringify(request()->input('q')) }}" autocomplete="off">
                         <button type="submit"><i class="fi-rs-search"></i></button>
                         <div class="panel--search-result"></div>
+                    </form>
+                </div>
+            @endif
+
+            @if (is_plugin_active('marketplace'))
+                <div class="mobile-search search-style-3 mobile-header-border" style="margin-top: 10px;">
+                    <form action="#" class="form--quick-search-vendor-mobile" method="GET"
+                        style="position: relative; background: #fff; border: 1px solid #BCE3C9; border-radius: 5px; height: 45px; display: flex; align-items: center;">
+                        <input type="text" class="input-search-vendor-mobile" name="q"
+                            placeholder="{{ __('Search for vendors...') }}" autocomplete="off"
+                            style="border: none; height: 43px; padding: 0 15px; width: 100%; border-radius: 5px;">
+                        <button class="btn" type="button"
+                            style="background: transparent; border: none; padding: 0 15px;">
+                            <i class="fi-rs-search" style="font-size: 18px; color: #253D4E;"></i>
+                        </button>
+                        <div class="panel--search-result-vendor-mobile"
+                            style="position: absolute; top: 100%; left: 0; width: 100%; background: #fff; border: 1px solid #ececec; border-top: none; z-index: 999; display: none; max-height: 300px; overflow-y: auto; border-radius: 0 0 10px 10px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);">
+                        </div>
                     </form>
                 </div>
             @endif
@@ -806,6 +831,84 @@
             document.addEventListener('click', function(e) {
                 if (!vendorInput.contains(e.target) && !vendorResult.contains(e.target)) {
                     vendorResult.style.display = 'none';
+                }
+            });
+        }
+
+        // Mobile Vendor Search
+        const vendorInputMobile = document.querySelector('.input-search-vendor-mobile');
+        const vendorResultMobile = document.querySelector('.panel--search-result-vendor-mobile');
+
+        if (vendorInputMobile && vendorResultMobile) {
+            let vendorSearchTimeout;
+
+            vendorInputMobile.addEventListener('input', function(e) {
+                clearTimeout(vendorSearchTimeout);
+                const query = e.target.value.trim();
+
+                if (query.length < 2) {
+                    vendorResultMobile.style.display = 'none';
+                    return;
+                }
+
+                vendorSearchTimeout = setTimeout(() => {
+                    fetch("{{ route('public.ajax.search') }}?q=" + encodeURIComponent(
+                            query), {
+                            method: 'GET',
+                            headers: {
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            vendorResultMobile.innerHTML = '';
+                            if (data.data && data.data.length > 0) {
+                                vendorResultMobile.style.display = 'block';
+                                const ul = document.createElement('ul');
+                                ul.style.listStyle = 'none';
+                                ul.style.padding = '0';
+                                ul.style.margin = '0';
+
+                                data.data.forEach(store => {
+                                    const li = document.createElement('li');
+                                    li.style.padding = '10px 20px';
+                                    li.style.borderBottom = '1px solid #ececec';
+
+                                    const areaBadge = store.is_from_user_area ?
+                                        '<span style="background: #e8f6ea; color: #3BB77E; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; margin-left: 5px;"><i class="fi-rs-marker" style="font-size: 9px;"></i> {{ __('From your area') }}</span>' :
+                                        '';
+
+                                    li.innerHTML = `
+                                        <a href="${store.url}" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                                            <img src="${store.logo || '{{ Theme::asset()->url('imgs/theme/icons/icon-store.svg') }}'}" alt="${store.name}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;">
+                                            <div style="flex: 1;">
+                                                <div style="font-weight: bold; color: #3bb77e;">${store.name} ${areaBadge}</div>
+                                                <div style="font-size: 12px; color: #7e7e7e;">
+                                                    <span style="color: #ffb800;">★ ${store.rating}</span> • ${store.products_count} Products
+                                                </div>
+                                            </div>
+                                        </a>
+                                    `;
+                                    ul.appendChild(li);
+                                });
+                                vendorResultMobile.appendChild(ul);
+                            } else {
+                                vendorResultMobile.style.display = 'block';
+                                vendorResultMobile.innerHTML =
+                                    '<div style="padding: 10px 20px; color: #7e7e7e;">{{ __('No vendors found') }}</div>';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Mobile vendor search error:', error);
+                        });
+                }, 500);
+            });
+
+            // Close on click outside
+            document.addEventListener('click', function(e) {
+                if (!vendorInputMobile.contains(e.target) && !vendorResultMobile.contains(e.target)) {
+                    vendorResultMobile.style.display = 'none';
                 }
             });
         }
