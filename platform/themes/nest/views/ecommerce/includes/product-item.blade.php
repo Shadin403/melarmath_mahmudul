@@ -135,7 +135,80 @@
             white-space: normal;
         }
 
-        /* mobile view: price top, cart bottom left */
+        /* Price & Button Layout - Modified to support full width button */
+        .product-card-bottom {
+            display: flex;
+            flex-direction: column;
+            /* Stack price and button */
+            align-items: flex-start;
+            margin-top: 15px;
+            min-height: auto;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3BB77E;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        /* Add to Cart Button (Yellow, Full Width) - KEPT FROM NEW DESIGN */
+        .add-cart {
+            width: 100%;
+        }
+
+        .add-cart .action-btn.add {
+            width: 100%;
+
+            /* Yellow background */
+            color: #253D4E;
+            /* Dark text */
+            font-weight: 700;
+            border-radius: 5px;
+            padding: 10px 0;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            font-size: 14px;
+            transition: all .3s;
+        }
+
+        .add-cart .action-btn.add:hover {
+            background-color: #253D4E;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .add-cart .action-btn.add i {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* Desktop Hover Logic for Button */
+        @media (min-width: 577px) {
+            .add-cart {
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(20px);
+                transition: all 0.3s ease;
+                height: 0;
+                margin-top: 0;
+                overflow: hidden;
+            }
+
+            .product-cart-wrap:hover .add-cart {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                height: 45px;
+                margin-top: 0;
+            }
+        }
+
+        /* Mobile View */
         @media (max-width: 576px) {
             .product-card-bottom {
                 display: flex;
@@ -144,30 +217,11 @@
                 gap: 8px;
                 min-height: 70px;
             }
-        }
 
-        /* desktop view: price & cart side by side */
-        @media (min-width: 577px) {
-            .product-card-bottom {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                min-height: 60px;
-            }
-
-            /* Hide add-to-cart button by default on desktop */
-            .product-cart-wrap .add-cart {
-                opacity: 0;
-                visibility: hidden;
-                transition: all 0.3s ease;
-                transform: translateY(10px);
-            }
-
-            /* Show add-to-cart button on hover */
-            .product-cart-wrap:hover .add-cart {
+            .add-cart {
                 opacity: 1;
                 visibility: visible;
-                transform: translateY(0);
+                height: auto;
             }
         }
 
