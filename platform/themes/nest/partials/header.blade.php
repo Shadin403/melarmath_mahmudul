@@ -160,8 +160,7 @@
                                 <form action="#" class="form--quick-search-vendor" method="GET"
                                     style="position: relative; background: #fff; border: 1px solid #BCE3C9; border-radius: 5px; height: 50px; display: flex; align-items: center;">
                                     <input type="text" class="input-search-vendor" name="q"
-                                        placeholder="{{ __('Search Store Name, Mobile or Area...') }}"
-                                        autocomplete="off"
+                                        placeholder="{{ __('Search for vendors...') }}" autocomplete="off"
                                         style="border: none; height: 48px; padding: 0 15px; width: 100%; border-radius: 5px;">
                                     <button class="btn" type="button"
                                         style="background: transparent; border: none; padding: 0 15px;">
