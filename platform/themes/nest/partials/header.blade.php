@@ -240,6 +240,14 @@
 
                     .logo.logo-width-1 {
                         margin-right: -32px !important;
+                        width: 295px !important;
+                    }
+
+                    @media (max-width: 767px) {
+                        .logo.logo-width-1 {
+                            margin-right: 70px !important;
+                            width: auto !important;
+                        }
                     }
                 </style>
 
