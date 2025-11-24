@@ -63,6 +63,49 @@ class StoreForm extends FormAbstract
             ->add('description', TextareaField::class, DescriptionFieldOption::make()->colspan(6))
             ->add('content', EditorField::class, ContentFieldOption::make()->colspan(6))
             ->addLocationFields()
+            ->addBefore(
+                'state',
+                'is_out_side_dhaka',
+                \Botble\Base\Forms\Fields\OnOffCheckboxField::class,
+                \Botble\Base\Forms\FieldOptions\OnOffFieldOption::make()
+                    ->label('Is Outside Dhaka?')
+                    ->defaultValue(false)
+                    ->colspan(6)
+                    ->attributes(['class' => 'is-outside-dhaka-checkbox'])
+            )
+            ->addAfter(
+                'city',
+                'is_inside_of_dhaka',
+                SelectField::class,
+                \Botble\Base\Forms\FieldOptions\SelectFieldOption::make()
+                    ->label('Thana')
+                    ->choices(\Botble\Ecommerce\Models\GlobalOptionValue::where('option_id', 7)->pluck('option_value', 'id')->all())
+                    ->emptyValue('Select Thana')
+                    ->searchable()
+                    ->colspan(3)
+                    ->attributes(['class' => 'dhaka-field thana-select'])
+            )
+            ->addAfter(
+                'is_inside_of_dhaka',
+                'inside_dhaka',
+                SelectField::class,
+                \Botble\Base\Forms\FieldOptions\SelectFieldOption::make()
+                    ->label('Area')
+                    ->choices(\App\Models\DhakaArea::pluck('name', 'id')->all())
+                    ->emptyValue('Select Area')
+                    ->searchable()
+                    ->colspan(3)
+                    ->attributes(['class' => 'dhaka-field area-select'])
+            )
+            ->addAfter(
+                'inside_dhaka',
+                'map_location',
+                TextField::class,
+                TextFieldOption::make()
+                    ->label('Map Location (Google Maps Link)')
+                    ->placeholder('https://maps.google.com/...')
+                    ->colspan(6)
+            )
             ->add(
                 'company',
                 TextField::class,
@@ -129,5 +172,70 @@ class StoreForm extends FormAbstract
                         'html' => view('plugins/marketplace::partials.extra-content', ['model' => $this->getModel()]),
                     ]);
             });
+    }
+
+    public function renderForm(array $options = [], $showStart = true, $showFields = true, $showEnd = true): string
+    {
+        $html = parent::renderForm($options, $showStart, $showFields, $showEnd);
+
+        $html .= '
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    function initLocationToggle() {
+                        // Try to find the checkbox by class (could be on input or wrapper)
+                        let outsideCheckbox = document.querySelector(".is-outside-dhaka-checkbox");
+                        if (outsideCheckbox && outsideCheckbox.tagName !== "INPUT") {
+                            outsideCheckbox = outsideCheckbox.querySelector("input");
+                        }
+                        // Fallback: find by name
+                        if (!outsideCheckbox) {
+                            outsideCheckbox = document.querySelector("[name=\'is_out_side_dhaka\']");
+                        }
+
+                        if (!outsideCheckbox) return;
+
+                        // Helper to find the closest form group container
+                        function getContainer(fieldName) {
+                            const element = document.querySelector("[name=\'" + fieldName + "\']");
+                            if (!element) return null;
+                            return element.closest(".mb-3") || element.closest(".form-group") || element.closest(".widget-item");
+                        }
+
+                        // Get containers
+                        const stateWrap = getContainer("state");
+                        const cityWrap = getContainer("city");
+                        const countryWrap = getContainer("country"); // Optional
+                        const thanaWrap = document.querySelector(".thana-select")?.closest(".mb-3") || document.querySelector(".thana-select")?.closest(".form-group");
+                        const areaWrap = document.querySelector(".area-select")?.closest(".mb-3") || document.querySelector(".area-select")?.closest(".form-group");
+
+                        function toggleFields() {
+                            const isOutside = outsideCheckbox.checked;
+
+                            // Toggle State/City (Show if Outside Dhaka)
+                            if (stateWrap) stateWrap.style.display = isOutside ? "block" : "none";
+                            if (cityWrap) cityWrap.style.display = isOutside ? "block" : "none";
+                            if (countryWrap) countryWrap.style.display = isOutside ? "block" : "none";
+
+                            // Toggle Thana/Area (Show if Inside Dhaka)
+                            if (thanaWrap) thanaWrap.style.display = isOutside ? "none" : "block";
+                            if (areaWrap) areaWrap.style.display = isOutside ? "none" : "block";
+                        }
+
+                        // Attach listener
+                        outsideCheckbox.addEventListener("change", toggleFields);
+
+                        // Initial run
+                        toggleFields();
+                    }
+
+                    // Run immediately and after a short delay to ensure DOM is ready
+                    initLocationToggle();
+                    setTimeout(initLocationToggle, 500);
+                    setTimeout(initLocationToggle, 1000);
+                });
+            </script>
+        ';
+
+        return $html;
     }
 }
