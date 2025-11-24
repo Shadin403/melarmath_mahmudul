@@ -239,8 +239,8 @@
                     }
 
                     .logo.logo-width-1 {
-                        margin-right: -32px !important;
-                        width: 295px !important;
+                        margin-right: -53px !important;
+                        width: 486px !important;
                     }
 
                     @media (max-width: 767px) {
