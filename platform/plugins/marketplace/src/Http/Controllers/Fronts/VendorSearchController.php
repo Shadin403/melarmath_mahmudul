@@ -31,28 +31,27 @@ class VendorSearchController extends BaseController
                     ->orWhere('mp_stores.address', 'LIKE', '%' . $keyword . '%');
             });
 
-        // Prioritize stores by matching customer's address area with user's selected area
+        // Prioritize stores by matching delivery_areas with user's selected area
         if ($userAreaId) {
-            $query->leftJoin('ec_customers', 'mp_stores.customer_id', '=', 'ec_customers.id')
-                ->leftJoin('ec_customer_addresses', function ($join) {
-                    $join->on('ec_customers.id', '=', 'ec_customer_addresses.customer_id')
-                        ->where('ec_customer_addresses.is_default', '=', 1);
-                })
-                ->selectRaw('mp_stores.*, (SELECT COUNT(*) FROM ec_products WHERE ec_products.store_id = mp_stores.id) as products_count')
-                ->orderByRaw(
-                    "CASE
-                        WHEN ec_customer_addresses.inside_dhaka = ? THEN 0
-                        ELSE 1
-                    END",
-                    [$userAreaId]
-                );
+            $query->selectRaw('mp_stores.*, (SELECT COUNT(*) FROM ec_products WHERE ec_products.store_id = mp_stores.id) as products_count');
         } else {
             $query->withCount('products');
         }
 
         $stores = $query->limit(10)->get();
 
-        $data = $stores->map(function ($store) {
+        // Sort stores based on inside_dhaka matching user's area_id
+        if ($userAreaId) {
+            $stores = $stores->sortBy(function ($store) use ($userAreaId) {
+                // Priority 1: Exact match with inside_dhaka field
+                if ($store->inside_dhaka == $userAreaId) {
+                    return 0;
+                }
+                return 1;
+            })->values();
+        }
+
+        $data = $stores->map(function ($store) use ($userAreaId) {
             return [
                 'id' => $store->id,
                 'name' => $store->name,
@@ -61,6 +60,7 @@ class VendorSearchController extends BaseController
                 'rating' => number_format($store->reviews_avg_star ?? 0, 1),
                 'products_count' => $store->products_count ?? 0,
                 'address' => $store->address,
+                'is_from_user_area' => $userAreaId && $store->inside_dhaka == $userAreaId,
             ];
         });
 

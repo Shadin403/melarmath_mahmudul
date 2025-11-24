@@ -769,11 +769,16 @@
                                     const li = document.createElement('li');
                                     li.style.padding = '10px 20px';
                                     li.style.borderBottom = '1px solid #ececec';
+
+                                    const areaBadge = store.is_from_user_area ?
+                                        '<span style="background: #e8f6ea; color: #3BB77E; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; margin-left: 5px;"><i class="fi-rs-marker" style="font-size: 9px;"></i> আপনার এলাকার</span>' :
+                                        '';
+
                                     li.innerHTML = `
                                         <a href="${store.url}" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
                                             <img src="${store.logo || '{{ Theme::asset()->url('imgs/theme/icons/icon-store.svg') }}'}" alt="${store.name}" style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%;">
-                                            <div>
-                                                <div style="font-weight: bold; color: #3bb77e;">${store.name}</div>
+                                            <div style="flex: 1;">
+                                                <div style="font-weight: bold; color: #3bb77e;">${store.name} ${areaBadge}</div>
                                                 <div style="font-size: 12px; color: #7e7e7e;">
                                                     <span style="color: #ffb800;">★ ${store.rating}</span> • ${store.products_count} Products
                                                 </div>
