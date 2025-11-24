@@ -1,4 +1,10 @@
 {
     "Search for vendors...": "বিক্রেতা খুঁজুন...",
-    "Vendor Name": "বিক্রিতার নাম"
+    "Sold By": "বিক্রিতা",
+    "No vendors found": "কোন বিক্রেতা পাওয়া যায়নি",
+    "Available in other areas": "অন্য এলাকায় পাওয়া যাচ্ছে",
+    "Available in your area": "আপনার এলাকায় পাওয়া যাচ্ছে",
+    "From your area": "আপনার এলাকার",
+    "Your area has :count products": "আপনার এলাকায় :countটি প্রোডাক্ট পাওয়া গেছে",
+    "Total :count": "মোট :countটি"
 }

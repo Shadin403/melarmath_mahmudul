@@ -771,7 +771,7 @@
                                     li.style.borderBottom = '1px solid #ececec';
 
                                     const areaBadge = store.is_from_user_area ?
-                                        '<span style="background: #e8f6ea; color: #3BB77E; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; margin-left: 5px;"><i class="fi-rs-marker" style="font-size: 9px;"></i> আপনার এলাকার</span>' :
+                                        '<span style="background: #e8f6ea; color: #3BB77E; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; margin-left: 5px;"><i class="fi-rs-marker" style="font-size: 9px;"></i> {{ __('From your area') }}</span>' :
                                         '';
 
                                     li.innerHTML = `

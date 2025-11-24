@@ -23,9 +23,9 @@
 @if ($products->isNotEmpty())
     @if ($userAreaId && $totalCount > 0)
         <div class="panel__header" style="padding: 10px 15px; background: #f7f8f9; border-bottom: 1px solid #ececec;">
-            <span style="color: #3BB77E; font-weight: 600;">আপনার এলাকায় {{ $matchingCount }}টি প্রোডাক্ট পাওয়া
-                গেছে</span>
-            <span style="color: #7e7e7e;"> • মোট {{ $totalCount }}টি</span>
+            <span
+                style="color: #3BB77E; font-weight: 600;">{{ __('Your area has :count products', ['count' => $matchingCount]) }}</span>
+            <span style="color: #7e7e7e;"> • {{ __('Total :count', ['count' => $totalCount]) }}</span>
         </div>
     @endif
 
@@ -70,14 +70,14 @@
                                         <div style="margin-top: 5px;">
                                             <span
                                                 style="background: #e8f6ea; color: #3BB77E; padding: 3px 10px; border-radius: 5px; font-size: 11px; font-weight: 600; display: inline-block;">
-                                                <i class="fi-rs-marker" style="font-size: 10px;"></i> আপনার এলাকায়
-                                                পাওয়া যাচ্ছে
+                                                <i class="fi-rs-marker" style="font-size: 10px;"></i>
+                                                {{ __('Available in your area') }}
                                             </span>
                                         </div>
                                     @else
                                         <div style="margin-top: 5px;">
                                             <span style="color: #adadad; font-size: 11px; display: inline-block;">
-                                                অন্য এলাকায় পাওয়া যাচ্ছে
+                                                {{ __('Available in other areas') }}
                                             </span>
                                         </div>
                                     @endif
