@@ -120,10 +120,10 @@
                                 <div class="icon-box" style="position: relative; left: 30px;">
                                     <i class="fi-rs-marker"></i>
                                 </div>
-                                <div class="text-box">
+                                {{-- <div class="text-box">
                                     <span class="label" style="text-align: center;">{{ __('Delivery:') }}</span>
                                     <span class="value" style="text-align: center;">{{ __('Select Location') }}</span>
-                                </div>
+                                </div> --}}
                             </a>
                         @endif
                     </div>
