@@ -117,12 +117,12 @@
                             </a>
                         @else
                             <a href="javascript:void(0)" onclick="openLocationModal()" class="location-badge">
-                                <div class="icon-box">
+                                <div class="icon-box" style="position: relative; left: 34px;">
                                     <i class="fi-rs-marker"></i>
                                 </div>
                                 <div class="text-box">
-                                    <span class="label">{{ __('Delivery:') }}</span>
-                                    <span class="value">{{ __('Select Location') }}</span>
+                                    <span class="label" style="text-align: center;">{{ __('Delivery:') }}</span>
+                                    <span class="value" style="text-align: center;">{{ __('Select Location') }}</span>
                                 </div>
                             </a>
                         @endif
