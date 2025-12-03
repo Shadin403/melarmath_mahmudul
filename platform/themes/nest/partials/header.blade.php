@@ -102,20 +102,18 @@
 
                 <div class="header-right" style="flex-grow: 1; justify-content: flex-end;">
                     <div class="delivery-location-info mr-30 d-none d-lg-block"
-                        style="margin-right: 116px !important;
-    position: relative;
-    left: 88px;">
+                        style="margin-right: 116px !important; position: relative; left: 88px;">
                         @if (Session::has('user_selected_location'))
                             <a href="javascript:void(0)" onclick="openLocationModal()" class="location-badge">
                                 <div class="icon-box">
                                     <i class="fi-rs-marker"></i>
                                 </div>
                                 <div class="text-box">
-                                    <span class="label">{{ __('Delivery:') }}</span>
-                                    <span
-                                        class="value">{{ Session::get('user_selected_location')['area_name'] }}</span>
+                                    <span class="label" style="text-align: center;">{{ __('Delivery:') }}</span>
+                                    <span class="value"
+                                        style="text-align: center;">{{ Session::get('user_selected_location')['area_name'] }}</span>
                                 </div>
-                                <i class="fi-rs-angle-small-down ms-auto"></i>
+                                {{-- <i class="fi-rs-angle-small-down ms-auto"></i> --}}
                             </a>
                         @else
                             <a href="javascript:void(0)" onclick="openLocationModal()" class="location-badge">
@@ -180,15 +178,16 @@
 
                 <style>
                     .location-badge {
-                        display: flex;
+                        /* display: flex;
                         align-items: center;
-                        background-color: #e8f6ea;
+                        background-color: #e8f6ea; */
                         /* Light green background */
-                        padding: 8px 15px;
+                        /* padding: 8px 15px;
                         border-radius: 50px;
-                        border: 1px solid #BCE3C9;
+                        border: 1px solid #BCE3C9; */
                         transition: all 0.3s ease;
                         min-width: 200px;
+
                     }
 
                     .location-badge:hover {
@@ -205,6 +204,8 @@
                         align-items: center;
                         justify-content: center;
                         margin-right: 10px;
+                        position: relative;
+                        left: 34px;
                     }
 
                     .location-badge .icon-box i {
