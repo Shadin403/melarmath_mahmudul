@@ -105,7 +105,7 @@
                         style="margin-right: 116px !important; position: relative; left: 88px;">
                         @if (Session::has('user_selected_location'))
                             <a href="javascript:void(0)" onclick="openLocationModal()" class="location-badge">
-                                <div class="icon-box">
+                                <div class="icon-box" style="position: relative; left: 34px;">
                                     <i class="fi-rs-marker"></i>
                                 </div>
                                 <div class="text-box">
@@ -204,8 +204,6 @@
                         align-items: center;
                         justify-content: center;
                         margin-right: 10px;
-                        position: relative;
-                        left: 34px;
                     }
 
                     .location-badge .icon-box i {
