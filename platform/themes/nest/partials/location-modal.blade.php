@@ -79,6 +79,14 @@
         border-color: #3BB77E;
         background-color: #fff;
     }
+
+    @media (max-width: 768px) {
+        .modal.fade.custom-modal.show {
+            display: block;
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0.5);
+        }
+    }
 </style>
 
 <script>
