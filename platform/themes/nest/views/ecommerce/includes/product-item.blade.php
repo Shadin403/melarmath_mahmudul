@@ -115,6 +115,27 @@
                             <span class="d-inline-block">{{ __('Add') }}</span>
                         </a>
                     </div>
+
+                    <div class="buy-now-wrap" style="width: 100%; margin-top: 2px;">
+                        @if ($product->variations->isNotEmpty())
+                            <a aria-label="{{ __('Buy Now') }}" class="action-btn buy-now-btn js-quick-view-button"
+                                data-url="{{ route('public.ajax.quick-view', $product->id) }}" href="#"
+                                style="width: 100%; background-color: #176131 ; color: #fff; font-weight: 700; border-radius: 5px; padding: 10px 0; border: none; font-size: 14px; transition: all .3s; display: flex; justify-content: center; align-items: center;">
+                                <i class="fi-rs-bolt mr-5"></i> {{ __('Buy Now') }}
+                            </a>
+                        @else
+                            <form class="buy-now-form" method="POST" action="{{ route('public.cart.add-to-cart') }}">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $product->id }}">
+                                <input type="hidden" name="qty" value="1">
+                                <input type="hidden" name="checkout" value="true">
+                                <button type="submit" class="action-btn buy-now-btn"
+                                    style="width: 100%; background-color: #253D4E; color: #fff; font-weight: 700; border-radius: 5px; padding: 10px 0; border: none; font-size: 14px; transition: all .3s; display: flex; justify-content: center; align-items: center;">
+                                    <i class="fi-rs-bolt mr-5"></i> {{ __('Buy Now') }}
+                                </button>
+                            </form>
+                        @endif
+                    </div>
                 @endif
             </div>
         </div>
@@ -189,7 +210,9 @@
 
         /* Desktop Hover Logic for Button */
         @media (min-width: 577px) {
-            .add-cart {
+
+            .add-cart,
+            .buy-now-wrap {
                 opacity: 0;
                 visibility: hidden;
                 transform: translateY(20px);
@@ -206,6 +229,14 @@
                 height: 45px;
                 margin-top: 0;
             }
+
+            .product-cart-wrap:hover .buy-now-wrap {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+                height: 45px;
+                margin-top: 10px;
+            }
         }
 
         /* Mobile View */
@@ -215,13 +246,20 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 8px;
-                min-height: 70px;
+                min-height: 120px;
+                /* Increased height for both buttons */
             }
 
-            .add-cart {
+            .add-cart,
+            .buy-now-wrap {
                 opacity: 1;
                 visibility: visible;
                 height: auto;
+                margin-top: 0;
+            }
+
+            .buy-now-wrap {
+                margin-top: 5px;
             }
         }
 
