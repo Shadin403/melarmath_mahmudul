@@ -479,6 +479,39 @@
             </div>
         </div>
         <div class="mobile-header-content-area">
+            <div class="mobile-location-info mobile-header-border" style="margin-bottom: 20px; padding-bottom: 20px;">
+                @if (Session::has('user_selected_location'))
+                    <a href="javascript:void(0)" onclick="openLocationModal()" class="location-badge"
+                        style="display: flex; align-items: center; gap: 10px; width: 100%;">
+                        <div class="icon-box"
+                            style="background: #e8f6ea; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                            <i class="fi-rs-marker" style="color: #3BB77E; font-size: 18px;"></i>
+                        </div>
+                        <div class="text-box" style="display: flex; flex-direction: column;">
+                            <span class="label"
+                                style="font-size: 12px; color: #7e7e7e;">{{ __('Delivery:') }}</span>
+                            <span class="value"
+                                style="font-weight: bold; color: #3BB77E;">{{ Session::get('user_selected_location')['area_name'] }}</span>
+                        </div>
+                        <i class="fi-rs-angle-small-down ms-auto"></i>
+                    </a>
+                @else
+                    <a href="javascript:void(0)" onclick="openLocationModal()" class="location-badge"
+                        style="display: flex; align-items: center; gap: 10px; width: 100%;">
+                        <div class="icon-box"
+                            style="background: #e8f6ea; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+                            <i class="fi-rs-marker" style="color: #3BB77E; font-size: 18px;"></i>
+                        </div>
+                        <div class="text-box" style="display: flex; flex-direction: column;">
+                            <span class="label"
+                                style="font-size: 12px; color: #7e7e7e;">{{ __('Delivery:') }}</span>
+                            <span class="value"
+                                style="font-weight: bold; color: #3BB77E;">{{ __('Select Location') }}</span>
+                        </div>
+                        <i class="fi-rs-angle-small-down ms-auto"></i>
+                    </a>
+                @endif
+            </div>
             @if (is_plugin_active('ecommerce') && theme_option('enabled_product_categories_on_search_keyword_box', 'yes') !== 'no')
                 <div class="mobile-search search-style-3 mobile-header-border">
                     <form action="{{ route('public.products') }}" class="form--quick-search"
