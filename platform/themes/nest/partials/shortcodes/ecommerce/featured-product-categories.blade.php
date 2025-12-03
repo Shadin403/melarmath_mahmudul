@@ -1,5 +1,5 @@
 @if ($categories->isNotEmpty())
-    {{-- আপনার দেওয়া CSS কোড অপরিবর্তিত রাখা হয়েছে --}}
+    {{-- CSS কোড --}}
     <style>
         .swiper-category-container .swiper-button-next,
         .swiper-category-container .swiper-button-prev {
@@ -44,13 +44,12 @@
             display: none !important;
         }
 
-        /* দ্রুত সোয়াইপের জন্য কার্সর পরিবর্তন */
         .swiper-category-container .swiper-wrapper {
             cursor: grab;
         }
     </style>
 
-    {{-- আপনার দেওয়া HTML কোড অপরিবর্তিত রাখা হয়েছে --}}
+    {{-- HTML কোড --}}
     <section class="popular-categories section-padding">
         <div class="container wow animate__animated animate__fadeIn">
             <div class="section-title">
@@ -87,23 +86,19 @@
         </div>
     </section>
 
-    {{-- Swiper.js চালু করার জন্য নতুন এবং ফাস্ট-সোয়াইপ স্ক্রিপ্ট --}}
+    {{-- স্ক্রিপ্ট আপডেট করা হয়েছে --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             if (typeof Swiper !== 'undefined') {
                 const swiper = new Swiper('.swiper-category-container', {
-                    // ======= ফাস্ট সোয়াইপের জন্য বিশেষ সেটিংস =======
+                    // ফাস্ট সোয়াইপ সেটিংস
+                    freeMode: true,
+                    freeModeMomentum: true,
+                    freeModeMomentumRatio: 1,
+                    freeModeMomentumVelocityRatio: 1,
+                    speed: 400,
 
-                    // ১. ফ্রি মোড চালু করা
-                    freeMode: true, // সোয়াইপ করার পর স্লাইডারকে নিজের গতিতে চলতে দেয়
-                    freeModeMomentum: true, // গতিকে আরও মসৃণ করে
-                    freeModeMomentumRatio: 1, // মোমেন্টামের অনুপাত, মান বাড়ালে বেশি দূর যাবে
-                    freeModeMomentumVelocityRatio: 1, // গতির অনুপাত, মান বাড়ালে অল্প টানে বেশি গতি পাবে
-
-                    // ২. দ্রুত স্লাইড স্পিড
-                    speed: 400, // অ্যারো ক্লিক বা সোয়াইপের পর স্লাইড স্থির হওয়ার গতি
-
-                    // ৩. অন্যান্য বেসিক সেটিংস
+                    // সাধারণ সেটিংস
                     loop: false,
                     spaceBetween: 20,
                     grabCursor: true,
@@ -111,24 +106,33 @@
                         nextEl: '.swiper-button-next',
                         prevEl: '.swiper-button-prev',
                     },
-                    // আপনার দেওয়া রেসপন্সিভ সেটিংস অপরিবর্তিত রাখা হয়েছে
+                    // ======= ব্রেকপয়েন্ট আপডেট করা হয়েছে =======
                     breakpoints: {
+                        // মোবাইল (ছোট স্ক্রিন): এখানে ৩.৫ করা হয়েছে
                         320: {
-                            slidesPerView: 2,
+                            slidesPerView: 3.5,
                             spaceBetween: 10
                         },
+
+                        // মোবাইল (ল্যান্ডস্কেপ / একটু বড় ফোন): ৪.৫ করা হয়েছে যাতে সামঞ্জস্য থাকে
                         480: {
-                            slidesPerView: 3,
+                            slidesPerView: 4.5,
                             spaceBetween: 15
                         },
+
+                        // ট্যাবলেট
                         768: {
                             slidesPerView: 5,
                             spaceBetween: 20
                         },
+
+                        // ছোট ল্যাপটপ/ডেস্কটপ
                         992: {
                             slidesPerView: 7,
                             spaceBetween: 20
                         },
+
+                        // বড় স্ক্রিন
                         1200: {
                             slidesPerView: 10,
                             spaceBetween: 20
@@ -141,5 +145,4 @@
 @endif
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<!-- Swiper CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
