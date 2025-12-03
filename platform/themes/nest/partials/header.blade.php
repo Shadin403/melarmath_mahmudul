@@ -261,8 +261,7 @@
                                     <span
                                         class="pro-count blue compare-count">{{ Cart::instance('compare')->count() }}</span>
                                 </a>
-                                <a href="{{ route('public.compare') }}"><span
-                                        class="lable">{{ __('Compare') }}</span></a>
+                                {{-- <a href="{{ route('public.compare') }}"></a> --}}
                             </div>
                         @endif
                         @if (EcommerceHelper::isWishlistEnabled())
@@ -278,8 +277,8 @@
                                         @endif
                                     </span>
                                 </a>
-                                <a href="{{ route('public.wishlist') }}"><span
-                                        class="lable">{{ __('Wishlist') }}</span></a>
+                                {{-- <a href="{{ route('public.wishlist') }}"><span
+                                        class="lable">{{ __('Wishlist') }}</span></a> --}}
                             </div>
                         @endif
 
@@ -609,6 +608,10 @@
 
                     .sub-menu .sub-menu .category-item-container a {
                         padding-left: 50px !important;
+                    }
+
+                    .header-style-1 .header-middle-ptb-1 {
+                        padding: 0px 0 !important;
                     }
                 </style>
 
