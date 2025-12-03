@@ -11,7 +11,7 @@
     <style>
         @font-face {
             font-family: 'SolaimanLipi';
-            src: url('https://sobkichubazar.com.bd/asset/font/SolaimanLipi.ttf') format('truetype');
+            src: url('https://melarmath.com/asset/font/SolaimanLipi.ttf') format('truetype');
         }
 
         body {
@@ -525,7 +525,7 @@
     <br>
 
     <a target="_blank"
-        href="https://sobkichubazar.com.bd/orders/tracking?order_id={{ invoice . order_code }}&email={{ invoice . customer_email }}">View
+        href="https://melarmath.com/orders/tracking?order_id={{ invoice . order_code }}&email={{ invoice . customer_email }}">View
         Order Update Status</a>
 
     {% if qr_code is defined and qr_code %}

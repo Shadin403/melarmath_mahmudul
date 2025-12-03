@@ -417,7 +417,7 @@ class InvoiceHelper
             $cleanOrderCode = ltrim($orderCode, '#');
 
             $trackingLink = sprintf(
-                'https://sobkichubazar.com.bd/orders/tracking?order_id=%s&email=%s',
+                'https://melarmath.com/orders/tracking?order_id=%s&email=%s',
                 $cleanOrderCode,
                 $invoice->customer_email
             );
