@@ -123,6 +123,8 @@
         overflow: hidden;
         text-overflow: ellipsis;
         line-height: 1.2;
+        color: #176131;
+
     }
 
     .sub-toggle {
