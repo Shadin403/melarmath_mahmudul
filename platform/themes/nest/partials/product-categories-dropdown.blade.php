@@ -141,6 +141,36 @@
         border-bottom: none !important;
     }
 
+    /* Level 1 (Main Category) Text Color */
+    .category-list>.category-item>.category-link {
+        color: #253d4e !important;
+        /* Default color for main categories */
+        font-weight: 600;
+    }
+
+    /* Level 2 (Sub Category) Text Color */
+    .category-list>.category-item>.dropdown-list>.category-item>.category-link {
+        color: #253d4e !important;
+        /* Change this if you want a different color for level 2 */
+        font-weight: 500;
+    }
+
+    /* Level 3 (Sub-Sub Category) Text Color */
+    .category-list>.category-item>.dropdown-list>.category-item>.dropdown-list>.category-item>.category-link {
+        color: #7e7e7e !important;
+        /* Lighter color for deeper levels */
+        font-weight: 400;
+    }
+
+    /* Hover Colors */
+    .category-link:hover,
+    .category-list>.category-item>.dropdown-list>.category-item>.category-link:hover,
+    .category-list>.category-item>.dropdown-list>.category-item>.dropdown-list>.category-item>.category-link:hover {
+        color: #3BB77E !important;
+        /* Brand color on hover for all levels */
+        background-color: #f9f9f9 !important;
+    }
+
     /* Nested Dropdown Styles */
     .dropdown-list {
         position: absolute;
@@ -163,12 +193,6 @@
     /* Show dropdown on hover */
     .category-item:hover>.dropdown-list {
         display: block;
-    }
-
-    /* Hover effect for items in nested list */
-    .dropdown-list .category-link:hover {
-        color: #3BB77E !important;
-        background-color: #f9f9f9 !important;
     }
 
     /* Rotate arrow on hover */
