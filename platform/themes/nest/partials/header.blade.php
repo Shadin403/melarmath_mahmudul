@@ -239,7 +239,7 @@
                     }
 
                     .logo.logo-width-1 {
-                        margin-right: -53px !important;
+                        margin-right: -156px !important;
                         width: 486px !important;
                     }
 
