@@ -120,7 +120,7 @@
                         @if ($product->variations->isNotEmpty())
                             <a aria-label="{{ __('Buy Now') }}" class="action-btn buy-now-btn js-quick-view-button"
                                 data-url="{{ route('public.ajax.quick-view', $product->id) }}" href="#"
-                                style="width: 100%; background-color: #176131 ; color: #fff; font-weight: 700; border-radius: 5px; padding: 10px 0; border: none; font-size: 14px; transition: all .3s; display: flex; justify-content: center; align-items: center;">
+                                style="width: 100%; background-color: #176131; color: #fff; font-weight: 700; border-radius: 5px; padding: 10px 0; border: none; font-size: 14px; transition: all .3s; display: flex; justify-content: center; align-items: center;">
                                 <i class="fi-rs-bolt mr-5"></i> {{ __('Buy Now') }}
                             </a>
                         @else
@@ -130,7 +130,7 @@
                                 <input type="hidden" name="qty" value="1">
                                 <input type="hidden" name="checkout" value="true">
                                 <button type="submit" class="action-btn buy-now-btn"
-                                    style="width: 100%; background-color: #253D4E; color: #fff; font-weight: 700; border-radius: 5px; padding: 10px 0; border: none; font-size: 14px; transition: all .3s; display: flex; justify-content: center; align-items: center;">
+                                    style="width: 100%; background-color: #176131; color: #fff; font-weight: 700; border-radius: 5px; padding: 10px 0; border: none; font-size: 14px; transition: all .3s; display: flex; justify-content: center; align-items: center;">
                                     <i class="fi-rs-bolt mr-5"></i> {{ __('Buy Now') }}
                                 </button>
                             </form>
