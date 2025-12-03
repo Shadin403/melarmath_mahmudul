@@ -143,7 +143,7 @@
 
     /* Level 1 (Main Category) Text Color */
     .category-list>.category-item>.category-link {
-        color: #253d4e !important;
+        /* color: #253d4e !important; */
         /* Default color for main categories */
         font-weight: 600;
     }
