@@ -374,7 +374,8 @@
                                     );
                                 @endphp
 
-                                <div class="d-flex categories-dropdown-inner">
+                                <div class="d-flex categories-dropdown-inner"
+                                    style="margin-top: -24px; margin-left: -12px;">
                                     {!! Theme::partial('product-categories-dropdown', ['categories' => $categories, 'more' => false]) !!}
                                 </div>
                                 @if (count($categories) > 10)
